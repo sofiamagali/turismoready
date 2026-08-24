@@ -1,0 +1,46 @@
+<section class="section container reservation-page">
+  <p class="eyebrow">Resumen de reserva</p>
+  <div class="reservation-heading">
+    <div>
+      <h1><%= @reservation.reservation_code %></h1>
+      <p class="status-badge"><%= @reservation.status_label %></p>
+    </div>
+    <% if @reservation.editable? %>
+      <%= link_to "Editar pasajeros", edit_reservation_path(@reservation), class: "button button-outline" %>
+    <% end %>
+  </div>
+
+  <div class="reservation-summary">
+    <div>
+      <h2><%= @reservation.trip.name %></h2>
+      <p><strong>Destino:</strong> <%= @reservation.trip.destination.city %>, <%= @reservation.trip.destination.country %></p>
+      <p><strong>Fechas:</strong> <%= @reservation.trip.start_date.strftime("%d/%m/%Y") %> — <%= @reservation.trip.end_date.strftime("%d/%m/%Y") %></p>
+      <p><strong>Vuelo:</strong> <%= @reservation.trip.flight.presence || "A confirmar" %></p>
+      <p><strong>Hotel:</strong> <%= @reservation.trip.hotel.presence || "A confirmar" %></p>
+      <p><strong>Pensión:</strong> <%= @reservation.trip.board_type_label %></p>
+    </div>
+
+    <div>
+      <h2>Pasajeros</h2>
+      <ol class="passenger-list">
+        <% @reservation.passengers.each do |passenger| %>
+          <li><strong><%= passenger.first_name %> <%= passenger.last_name %></strong><br>DNI <%= passenger.dni %></li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+
+  <div class="booking-box reservation-total">
+    <div>
+      <span class="price-label">Precio por persona</span>
+      <strong><%= number_to_currency(@reservation.trip.price, unit: "$", precision: 0, delimiter: ".") %></strong>
+    </div>
+    <div>
+      <span class="price-label">Total</span>
+      <strong class="detail-price"><%= number_to_currency(@reservation.total_price, unit: "$", precision: 0, delimiter: ".") %></strong>
+    </div>
+    <% if @reservation.pending? %>
+      <%= button_to "Confirmar reserva", confirm_reservation_path(@reservation), method: :patch, class: "button button-large" %>
+    <% end %>
+  </div>
+</section>

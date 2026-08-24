@@ -1,0 +1,19 @@
+<%= form_with model: reservation,
+              url: reservation.persisted? ? reservation_path(reservation) : trip_reservations_path(reservation.trip) do |form| %>
+  <% if reservation.errors.any? %>
+    <div class="form-errors">
+      <h2>No se pudo guardar la reserva:</h2>
+      <ul>
+        <% reservation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.fields_for :passengers do |passenger_form| %>
+    <%= render "passenger_fields", form: passenger_form %>
+  <% end %>
+
+  <%= form.submit reservation.persisted? ? "Guardar cambios" : "Crear reserva", class: "button button-large" %>
+<% end %>

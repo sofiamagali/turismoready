@@ -1,0 +1,26 @@
+<fieldset class="passenger-fields">
+  <legend>Pasajero <%= form.index.to_i + 1 %></legend>
+
+  <div class="form-grid">
+    <div>
+      <%= form.label :first_name, "Nombre" %>
+      <%= form.text_field :first_name, required: true %>
+    </div>
+    <div>
+      <%= form.label :last_name, "Apellido" %>
+      <%= form.text_field :last_name, required: true %>
+    </div>
+    <div>
+      <%= form.label :dni, "DNI" %>
+      <%= form.text_field :dni, required: true %>
+    </div>
+    <div>
+      <%= form.label :birth_date, "Fecha de nacimiento" %>
+      <%= form.date_field :birth_date, required: true %>
+    </div>
+    <div>
+      <%= form.label :nationality, "Nacionalidad" %>
+      <%= form.text_field :nationality %>
+    </div>
+  </div>
+</fieldset>

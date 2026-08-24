@@ -25,9 +25,12 @@
         </dl>
         <div class="booking-box">
           <div><span class="price-label">Precio por persona</span><strong class="detail-price"><%= number_to_currency(@trip.price, unit: "$", precision: 0, delimiter: ".") %></strong></div>
-          <button class="button button-large" type="button" disabled title="Disponible en la próxima etapa">Reservar</button>
+          <% if @trip.available_slots.positive? %>
+            <%= link_to "Reservar", new_trip_reservation_path(@trip), class: "button button-large" %>
+          <% else %>
+            <button class="button button-large" type="button" disabled>Sin cupos</button>
+          <% end %>
         </div>
-        <p class="coming-soon">Las reservas estarán disponibles próximamente.</p>
       </div>
     </div>
   </div>

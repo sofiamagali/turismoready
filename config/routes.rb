@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   end
   resources :trips, except: :destroy do
     patch :toggle_active, on: :member
+    resources :reservations, only: %i[new create]
+  end
+  resources :reservations, only: %i[show edit update] do
+    patch :confirm, on: :member
   end
   root "home#index"
 end

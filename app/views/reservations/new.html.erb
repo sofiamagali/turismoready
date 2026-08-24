@@ -1,0 +1,19 @@
+<section class="section container reservation-page">
+  <p class="eyebrow">Nueva reserva</p>
+  <h1><%= @trip.name %></h1>
+  <p><%= @trip.destination.city %>, <%= @trip.destination.country %> · <%= number_to_currency(@trip.price, unit: "$", precision: 0, delimiter: ".") %> por persona</p>
+
+  <% if @trip.available_slots.positive? %>
+    <div class="passenger-count-box">
+      <%= form_with url: new_trip_reservation_path(@trip), method: :get do |form| %>
+        <%= form.label :passenger_count, "Cantidad de pasajeros" %>
+        <%= form.select :passenger_count, options_for_select(1..@trip.available_slots, @passenger_count) %>
+        <%= form.submit "Actualizar pasajeros", class: "button button-outline" %>
+      <% end %>
+    </div>
+
+    <%= render "form", reservation: @reservation %>
+  <% else %>
+    <div class="empty-state"><h2>Este viaje no tiene cupos disponibles.</h2></div>
+  <% end %>
+</section>
