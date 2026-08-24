@@ -1,0 +1,14 @@
+<h1><%= @destination.name %></h1>
+
+<% if @destination.image_url.present? %>
+  <%= image_tag @destination.image_url, alt: @destination.name, width: 480 %>
+<% end %>
+
+<p><strong>País:</strong> <%= @destination.country %></p>
+<p><strong>Ciudad:</strong> <%= @destination.city %></p>
+<p><strong>Descripción:</strong> <%= @destination.description.presence || "Sin descripción" %></p>
+<p><strong>URL de imagen:</strong> <%= @destination.image_url.presence || "Sin imagen" %></p>
+<p><strong>Estado:</strong> <%= @destination.active? ? "Activo" : "Inactivo" %></p>
+
+<%= link_to "Editar", edit_destination_path(@destination) %>
+<%= link_to "Volver a destinos", destinations_path %>

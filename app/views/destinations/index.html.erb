@@ -1,0 +1,22 @@
+<h1>Destinos</h1>
+
+<p><%= link_to "Nuevo destino", new_destination_path %></p>
+
+<% if @destinations.any? %>
+  <% @destinations.each do |destination| %>
+    <article>
+      <% if destination.image_url.present? %>
+        <%= image_tag destination.image_url, alt: destination.name, width: 240 %>
+      <% end %>
+      <h2><%= destination.name %></h2>
+      <p><%= destination.city %>, <%= destination.country %></p>
+      <p>Estado: <%= destination.active? ? "Activo" : "Inactivo" %></p>
+      <%= link_to "Ver", destination_path(destination) %>
+      <%= link_to "Editar", edit_destination_path(destination) %>
+      <%= button_to(destination.active? ? "Desactivar" : "Activar",
+                    toggle_active_destination_path(destination), method: :patch) %>
+    </article>
+  <% end %>
+<% else %>
+  <p>No hay destinos cargados.</p>
+<% end %>

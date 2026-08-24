@@ -1,0 +1,44 @@
+<%= form_with model: destination do |form| %>
+  <% if destination.errors.any? %>
+    <div>
+      <h2>No se pudo guardar el destino:</h2>
+      <ul>
+        <% destination.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre" %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :country, "País" %><br>
+    <%= form.text_field :country %>
+  </div>
+
+  <div>
+    <%= form.label :city, "Ciudad" %><br>
+    <%= form.text_field :city %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción" %><br>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :image_url, "URL de imagen" %><br>
+    <%= form.url_field :image_url %>
+  </div>
+
+  <div>
+    <%= form.check_box :active %>
+    <%= form.label :active, "Activo" %>
+  </div>
+
+  <%= form.submit "Guardar destino" %>
+<% end %>

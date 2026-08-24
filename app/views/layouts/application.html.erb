@@ -13,6 +13,7 @@
   <body>
     <nav>
       <%= link_to "Inicio", root_path %>
+      <%= link_to "Destinos", destinations_path %>
       <% if user_signed_in? %>
         <span>Hola, <%= current_user.first_name %></span>
         <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display: inline" } %>
