@@ -1,0 +1,32 @@
+services:
+  rails:
+    build: .
+    command: bin/rails server -b 0.0.0.0
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+    ports:
+      - "3100:3000"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:5.7.16
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  bundle:
+  mysql_data:
