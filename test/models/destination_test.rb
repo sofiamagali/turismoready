@@ -17,4 +17,11 @@ class DestinationTest < ActiveSupport::TestCase
   test "is active by default" do
     assert Destination.new.active?
   end
+
+  test "does not destroy a destination with trips" do
+    destination = destinations(:bariloche)
+
+    assert_no_difference("Destination.count") { destination.destroy }
+    assert destination.errors[:base].any?
+  end
 end

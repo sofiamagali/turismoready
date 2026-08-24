@@ -1,0 +1,25 @@
+bariloche_winter:
+  destination: bariloche
+  name: Bariloche Invierno
+  description: Una semana en la Patagonia
+  start_date: 2027-07-10
+  end_date: 2027-07-17
+  price: 850000.00
+  available_slots: 20
+  flight: JetSMART - Buenos Aires → Bariloche
+  hotel: Hotel Patagonia
+  board_type: half_board
+  active: true
+
+mendoza_escape:
+  destination: mendoza
+  name: Mendoza Escapada
+  description: Recorrido por Mendoza
+  start_date: 2027-04-08
+  end_date: 2027-04-12
+  price: 620000.00
+  available_slots: 16
+  flight: Aerolíneas Argentinas - Buenos Aires → Mendoza
+  hotel: Hotel Diplomatic
+  board_type: full_board
+  active: false
