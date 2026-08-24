@@ -6,6 +6,7 @@ class Trip < ApplicationRecord
   }.freeze
 
   belongs_to :destination
+  has_many :reservations, dependent: :restrict_with_error
 
   validates :name, :start_date, :end_date, presence: true
   validates :price, numericality: { greater_than: 0 }

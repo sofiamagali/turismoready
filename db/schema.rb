@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_08_24_232028) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_24_233501) do
   create_table "destinations", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "country"
@@ -20,6 +20,31 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_24_232028) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "passengers", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "dni", null: false
+    t.date "birth_date", null: false
+    t.string "nationality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_passengers_on_reservation_id"
+  end
+
+  create_table "reservations", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "trip_id", null: false
+    t.string "status", default: "pending", null: false
+    t.decimal "total_price", precision: 12, scale: 2, null: false
+    t.string "reservation_code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_code"], name: "index_reservations_on_reservation_code", unique: true
+    t.index ["trip_id"], name: "index_reservations_on_trip_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "trips", charset: "utf8mb4", force: :cascade do |t|
@@ -54,5 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_24_232028) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "passengers", "reservations"
+  add_foreign_key "reservations", "trips"
+  add_foreign_key "reservations", "users"
   add_foreign_key "trips", "destinations"
 end
