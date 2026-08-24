@@ -28,7 +28,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", text: @trip.name
     assert_select "dd", text: "Media pensión"
-    assert_select "button[disabled]", text: "Reservar"
+    assert_select "a", text: "Reservar"
   end
 
   test "creates a trip associated with a destination" do
