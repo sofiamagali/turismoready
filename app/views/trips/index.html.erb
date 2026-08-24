@@ -1,0 +1,17 @@
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Próximas salidas</p>
+    <h1>Elegí tu próximo viaje</h1>
+    <p>Descubrí nuestros paquetes activos con vuelo, alojamiento y régimen incluido.</p>
+  </div>
+</section>
+
+<section class="section container">
+  <% if @trips.any? %>
+    <div class="trip-grid">
+      <%= render partial: "card", collection: @trips, as: :trip %>
+    </div>
+  <% else %>
+    <div class="empty-state"><h2>No hay viajes disponibles por el momento.</h2></div>
+  <% end %>
+</section>

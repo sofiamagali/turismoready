@@ -3,5 +3,8 @@ Rails.application.routes.draw do
   resources :destinations, except: :destroy do
     patch :toggle_active, on: :member
   end
+  resources :trips, except: :destroy do
+    patch :toggle_active, on: :member
+  end
   root "home#index"
 end

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Aerogirls</title>
+    <title>AeroGirls</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,21 +11,34 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Inicio", root_path %>
-      <%= link_to "Destinos", destinations_path %>
-      <% if user_signed_in? %>
-        <span>Hola, <%= current_user.first_name %></span>
-        <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display: inline" } %>
-      <% else %>
-        <%= link_to "Registrarse", new_user_registration_path %>
-        <%= link_to "Iniciar sesión", new_user_session_path %>
-      <% end %>
-    </nav>
+    <header class="site-header">
+      <nav class="navbar container" aria-label="Navegación principal">
+        <%= link_to "AeroGirls", root_path, class: "brand" %>
+        <div class="nav-links">
+          <%= link_to "Inicio", root_path %>
+          <%= link_to "Viajes", trips_path %>
+          <%= link_to "Destinos", destinations_path %>
+          <% if user_signed_in? %>
+            <span class="user-greeting">Hola, <%= current_user.first_name %></span>
+            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "button button-small button-outline" %>
+          <% else %>
+            <%= link_to "Registrarse", new_user_registration_path %>
+            <%= link_to "Iniciar sesión", new_user_session_path, class: "button button-small" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice.present? %><p class="flash notice"><%= notice %></p><% end %>
+    <% if alert.present? %><p class="flash alert"><%= alert %></p><% end %>
 
-    <%= yield %>
+    <main><%= yield %></main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div><strong>AeroGirls</strong><br><span>Tu próximo viaje empieza acá.</span></div>
+        <span>Turismo simple, destinos inolvidables.</span>
+      </div>
+    </footer>
   </body>
 </html>
