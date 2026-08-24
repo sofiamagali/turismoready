@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+bariloche:
+  name: Bariloche
+  country: Argentina
+  city: San Carlos de Bariloche
+  description: Lagos y montañas
+  image_url: https://example.com/bariloche.jpg
+  active: true
+
+mendoza:
+  name: Mendoza
+  country: Argentina
+  city: Mendoza
+  description: Tierra del vino
+  image_url:
+  active: false
