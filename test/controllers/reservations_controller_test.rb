@@ -40,6 +40,16 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @trip.price * 3, @user.reservations.last.total_price
   end
 
+  test "buyer cannot mark a reservation as paid or change its owner" do
+    sign_in @user
+    post trip_reservations_path(@trip), params: reservation_params(1, status: "paid", user_id: @other_user.id)
+    reservation = @user.reservations.last
+    assert_equal "pending", reservation.status
+    patch reservation_path(reservation), params: { reservation: { status: "paid", user_id: @other_user.id } }
+    assert_equal "pending", reservation.reload.status
+    assert_equal @user.id, reservation.user_id
+  end
+
   test "rejects passenger count above available slots" do
     sign_in @user
 

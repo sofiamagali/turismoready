@@ -16,6 +16,7 @@
         <h1><%= @destination.name %></h1>
         <span class="status-badge <%= 'status-badge-inactive' unless @destination.active? %>"><%= @destination.active? ? "Activo" : "Inactivo" %></span>
         <div class="trip-description"><%= simple_format(@destination.description.presence || "Sin descripción") %></div>
+        <% if @destination.complete?(@transport_type) %><span class="status-badge status-badge-inactive">Completo</span><% end %>
         <dl class="detail-facts">
           <div><dt>País</dt><dd><%= @destination.country %></dd></div>
           <div><dt>Ciudad</dt><dd><%= @destination.city %></dd></div>
@@ -32,6 +33,8 @@
     </div>
   </div>
 </section>
+
+<%= render "program_details", destination: @destination %>
 
 <section class="section container destination-departures" aria-labelledby="departures-heading">
   <div class="section-heading">
@@ -52,7 +55,7 @@
               <div><dt>Salida</dt><dd><%= trip.start_date.strftime("%d/%m/%Y") %></dd></div>
               <div><dt>Regreso</dt><dd><%= trip.end_date.strftime("%d/%m/%Y") %></dd></div>
             </dl>
-            <p class="field-help"><%= trip.available_slots.positive? ? "#{trip.available_slots} cupos disponibles" : "Sin cupos" %></p>
+            <p class="field-help"><%= trip.remaining_slots.positive? ? "#{trip.remaining_slots} cupos disponibles" : "Completo" %></p>
           </div>
           <div class="departure-price">
             <span class="price-label">Precio por persona</span>

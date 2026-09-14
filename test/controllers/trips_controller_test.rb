@@ -1,7 +1,10 @@
 require "test_helper"
 
 class TripsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
+    @admin = User.create!(first_name: "Sofi", last_name: "Admin", email: "trip-admin@example.com", password: "password123", admin: true)
     @trip = trips(:bariloche_winter)
     @valid_attributes = {
       destination_id: destinations(:mendoza).id,
@@ -32,6 +35,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "creates a trip associated with a destination" do
+    sign_in @admin
     assert_difference("Trip.count", 1) do
       post trips_path, params: { trip: @valid_attributes }
     end
@@ -42,6 +46,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rejects invalid values" do
+    sign_in @admin
     invalid_sets = [
       @valid_attributes.merge(price: 0),
       @valid_attributes.merge(available_slots: -1),
@@ -58,6 +63,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "updates a trip" do
+    sign_in @admin
     patch trip_path(@trip), params: { trip: { name: "Bariloche Renovado" } }
 
     assert_redirected_to trip_path(@trip)
@@ -65,10 +71,46 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "deactivates and reactivates a trip" do
+    sign_in @admin
     patch toggle_active_trip_path(@trip)
     assert_not @trip.reload.active?
 
     patch toggle_active_trip_path(@trip)
     assert @trip.reload.active?
+  end
+
+  test "guests cannot manage trips" do
+    get new_trip_path
+    assert_redirected_to new_user_session_path
+    assert_no_difference("Trip.count") do
+      post trips_path, params: { trip: @valid_attributes }
+    end
+    assert_redirected_to new_user_session_path
+  end
+
+  test "regular users cannot manage trips" do
+    user = User.create!(first_name: "Ana", last_name: "Viajera", email: "trip-user@example.com", password: "password123")
+    sign_in user
+    get new_trip_path
+    assert_response :forbidden
+    assert_no_difference("Trip.count") do
+      post trips_path, params: { trip: @valid_attributes }
+    end
+    assert_response :forbidden
+    patch trip_path(@trip), params: { trip: { name: "Cambio sin permiso" } }
+    assert_response :forbidden
+    patch toggle_active_trip_path(@trip)
+    assert_response :forbidden
+    assert @trip.reload.active?
+  end
+
+  test "only admins see the creation link and can open the form" do
+    get trips_path
+    assert_select "a[href=?]", new_trip_path, count: 0
+    sign_in @admin
+    get trips_path
+    assert_select "a[href=?]", new_trip_path
+    get new_trip_path
+    assert_response :success
   end
 end

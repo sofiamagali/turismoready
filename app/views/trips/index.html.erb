@@ -7,6 +7,9 @@
 </section>
 
 <section class="section container">
+  <% if current_user&.admin? %>
+    <%= link_to "Nuevo viaje", new_trip_path, class: "button" %>
+  <% end %>
   <% if @trips.any? %>
     <div class="trip-grid">
       <%= render partial: "card", collection: @trips, as: :trip %>

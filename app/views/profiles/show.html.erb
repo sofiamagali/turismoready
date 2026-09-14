@@ -1,0 +1,30 @@
+<section class="section container reservation-page">
+  <p class="eyebrow">Mi perfil</p>
+  <div class="reservation-heading">
+    <div>
+      <h1><%= current_user.first_name %> <%= current_user.last_name %></h1>
+      <p class="status-badge"><%= current_user.role_label %></p>
+      <p><%= current_user.email %></p>
+      <% if current_user.phone.present? %><p><%= current_user.phone %></p><% end %>
+    </div>
+    <%= link_to "Editar mis datos", edit_user_registration_path, class: "button button-outline" %>
+  </div>
+
+  <h2>Mis viajes</h2>
+  <% if @reservations.empty? %>
+    <p>Todavía no tenés viajes reservados.</p>
+    <%= link_to "Explorar viajes", trips_path, class: "button" %>
+  <% else %>
+    <% @reservations.each do |reservation| %>
+      <article class="booking-box">
+        <h3><%= reservation.trip.name %></h3>
+        <p><%= reservation.trip.destination.name %> · <%= reservation.trip.start_date.strftime("%d/%m/%Y") %> — <%= reservation.trip.end_date.strftime("%d/%m/%Y") %></p>
+        <p><strong>Reserva:</strong> <%= reservation.reservation_code %></p>
+        <p><strong>Estado:</strong> <%= reservation.status_label %></p>
+        <p><strong>Pago:</strong> <%= reservation.paid? ? "Pagado" : "No pagado" %></p>
+        <p><strong>Total:</strong> <%= number_to_currency(reservation.total_price, unit: "$", precision: 0, delimiter: ".") %></p>
+        <%= link_to "Ver reserva", reservation_path(reservation), class: "button button-outline" %>
+      </article>
+    <% end %>
+  <% end %>
+</section>

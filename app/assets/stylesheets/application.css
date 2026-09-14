@@ -67,12 +67,19 @@ img {
 }
 
 .brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
   color: var(--ocean-dark);
   font-size: 1.35rem;
   font-weight: 850;
   letter-spacing: -0.03em;
   text-decoration: none;
 }
+
+.travel-logo { display: block; width: 94px; height: 58px; }
+.brand:focus-visible { outline: 2px solid var(--ocean); outline-offset: 5px; border-radius: 0.4rem; }
+.brand-footer { display: flex; width: fit-content; margin-bottom: 0.6rem; color: var(--white); }
 
 .nav-links {
   display: flex;
@@ -350,3 +357,8 @@ input, select, textarea {
 .transport-card p { color: var(--muted); }
 .transport-card .text-link { margin-top: auto; padding-top: 1rem; }
 #formas-de-viajar { scroll-margin-top: 100px; }
+
+.destination-program { max-width: 1000px; padding-top: 0; }
+.program-section { padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+.program-section h2 { margin: 0 0 1rem; font-size: 1.5rem; }
+.program-section p { line-height: 1.8; }

@@ -27,6 +27,12 @@
       <%= form.label :description, "Descripción" %>
       <%= form.text_area :description, rows: 5 %>
     </div>
+    <% { general_details: "Detalle general", excursions: "Excursiones", hotel_details: "Nuestra hotelería", itinerary: "Itinerario de actividades", boarding_points: "Puntos de embarque" }.each do |field, label| %>
+      <div class="destination-field-wide">
+        <%= form.label field, label %>
+        <%= form.text_area field, rows: 6 %>
+      </div>
+    <% end %>
     <div class="destination-field-wide">
       <%= form.label :image_url, "URL de imagen" %>
       <%= form.url_field :image_url, placeholder: "https://ejemplo.com/destino.jpg", aria: { describedby: "destination-image-help" } %>

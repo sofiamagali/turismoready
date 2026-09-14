@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_trip, only: %i[new create]
+  before_action :ensure_bookable, only: %i[new create]
   before_action :set_reservation, only: %i[show edit update confirm]
   before_action :ensure_editable, only: %i[edit update]
 
@@ -14,7 +15,7 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.new(reservation_params)
     @reservation.trip = @trip
 
-    if @reservation.save
+    if save_reservation
       redirect_to @reservation, notice: "Reserva creada correctamente."
     else
       @passenger_count = [@reservation.passengers.size, 1].max
@@ -27,7 +28,8 @@ class ReservationsController < ApplicationController
   def edit; end
 
   def update
-    if @reservation.update(reservation_params)
+    @reservation.assign_attributes(reservation_params)
+    if save_reservation
       redirect_to @reservation, notice: "Reserva actualizada correctamente."
     else
       render :edit, status: :unprocessable_entity
@@ -46,8 +48,18 @@ class ReservationsController < ApplicationController
 
   private
 
+  def save_reservation
+    @reservation.save
+  rescue ActiveRecord::RecordInvalid
+    false
+  end
+
   def set_trip
     @trip = Trip.find(params[:trip_id])
+  end
+
+  def ensure_bookable
+    redirect_to @trip, alert: "Este viaje está completo o no está disponible para reservas." unless @trip.bookable?
   end
 
   def set_reservation
@@ -64,7 +76,7 @@ class ReservationsController < ApplicationController
     count = params.fetch(:passenger_count, 1).to_i
     return 1 unless count.positive?
 
-    [count, @trip.available_slots].min
+    [count, @trip.remaining_slots].min
   end
 
   def reservation_params

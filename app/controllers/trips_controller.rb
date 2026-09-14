@@ -1,4 +1,6 @@
 class TripsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :require_admin!, except: %i[index show]
   before_action :set_trip, only: %i[show edit update toggle_active]
   before_action :set_destinations, only: %i[new create edit update]
 
@@ -39,6 +41,10 @@ class TripsController < ApplicationController
   end
 
   private
+
+  def require_admin!
+    head :forbidden unless current_user.admin?
+  end
 
   def set_trip
     @trip = Trip.find(params[:id])

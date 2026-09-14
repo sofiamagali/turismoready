@@ -11,6 +11,7 @@ class Trip < ApplicationRecord
 
   BOARD_TYPES = {
     "none" => "Sin pensión",
+    "breakfast" => "Desayuno",
     "half_board" => "Media pensión",
     "full_board" => "Pensión completa"
   }.freeze
@@ -30,6 +31,18 @@ class Trip < ApplicationRecord
 
   def board_type_label
     BOARD_TYPES[board_type]
+  end
+
+  def shared_capacity?
+    transport_type == "bus" && source_url.present? && destination.shared_bus_slots.present?
+  end
+
+  def remaining_slots
+    shared_capacity? ? [available_slots, destination.shared_bus_slots].min : available_slots
+  end
+
+  def bookable?
+    active? && destination.active? && start_date >= Date.current && remaining_slots.positive?
   end
 
   private

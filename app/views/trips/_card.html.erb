@@ -12,6 +12,7 @@
   <div class="trip-card-content">
     <p class="trip-destination"><%= trip.destination.city %>, <%= trip.destination.country %></p>
     <h3><%= trip.name %></h3>
+    <% if trip.remaining_slots.zero? %><span class="status-badge status-badge-inactive">Completo</span><% end %>
     <dl class="trip-facts">
       <div><dt>Fechas</dt><dd><%= trip.start_date.strftime("%d/%m/%Y") %> — <%= trip.end_date.strftime("%d/%m/%Y") %></dd></div>
       <div><dt>Vuelo</dt><dd><%= trip.flight.presence || "A confirmar" %></dd></div>
