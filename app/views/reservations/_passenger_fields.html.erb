@@ -18,9 +18,13 @@
       <%= form.label :birth_date, "Fecha de nacimiento" %>
       <%= form.date_field :birth_date, required: true %>
     </div>
-    <div>
+    <div class="nationality-picker" data-controller="nationality" data-action="focusout->nationality#blur">
       <%= form.label :nationality, "Nacionalidad" %>
-      <%= form.text_field :nationality %>
+      <%= form.text_field :nationality, placeholder: "Escribí para buscar un país", autocomplete: "off",
+            role: "combobox", aria: { autocomplete: "list", expanded: "false", controls: "nationalities_#{form.index}" },
+            data: { nationality_target: "input", action: "focus->nationality#search input->nationality#search keydown->nationality#navigate" } %>
+      <ul id="nationalities_<%= form.index %>" class="nationality-options" role="listbox" aria-label="Nacionalidades"
+          data-nationality-target="list" hidden></ul>
     </div>
   </div>
 </fieldset>
