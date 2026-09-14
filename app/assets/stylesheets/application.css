@@ -341,10 +341,11 @@ input, select, textarea {
   .departure-price { border-top: 1px solid var(--line); padding-top: 1rem; }
 }
 
-.transport-card { display: flex; flex-direction: column; padding: 2.5rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--sand); text-decoration: none; transition: box-shadow 160ms ease, transform 160ms ease; }
+.transport-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 1rem; background: var(--sand); text-decoration: none; transition: box-shadow 160ms ease, transform 160ms ease; }
 .transport-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
 .transport-card:focus-visible { outline: 3px solid var(--ocean); outline-offset: 4px; }
-.transport-icon { font-size: 3rem; }
+.transport-image { width: 100%; height: 280px; object-fit: cover; }
+.transport-content { display: flex; flex: 1; flex-direction: column; padding: 2rem; }
 .transport-card h3 { margin: 1rem 0 0; font-size: 2rem; letter-spacing: -0.04em; }
 .transport-card p { color: var(--muted); }
 .transport-card .text-link { margin-top: auto; padding-top: 1rem; }

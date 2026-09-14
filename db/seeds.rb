@@ -18,7 +18,23 @@ trips = [
 ]
 
 trips.each do |attributes|
-  destination = Destination.find_by!(name: attributes.delete(:destination_name))
+  destination = Destination.find_by!(name: attributes[:destination_name])
+  attributes = attributes.except(:destination_name).merge(transport_type: "airplane")
   trip = Trip.find_or_initialize_by(destination: destination, name: attributes[:name])
   trip.update!(attributes)
+end
+
+# Opciones de demostración en micro para los mismos destinos.
+# Las fechas y los precios son datos de ejemplo, no tarifas comerciales.
+trips.each do |attributes|
+  destination = Destination.find_by!(name: attributes[:destination_name])
+  name = "#{destination.name} en micro"
+  trip = Trip.find_or_initialize_by(destination: destination, name: name, transport_type: "bus")
+  trip.update!(attributes.except(:destination_name).merge(
+    name: name,
+    transport_type: "bus",
+    flight: "Micro turístico — Buenos Aires → #{destination.city}",
+    description: "Paquete de ejemplo en micro a #{destination.name}. Fechas y precios sujetos a confirmación.",
+    price: (attributes[:price] * 0.7).round
+  ))
 end

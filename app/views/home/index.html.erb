@@ -16,16 +16,20 @@
   </div>
   <div class="trip-grid">
     <%= link_to destinations_path(transport_type: "bus"), class: "transport-card" do %>
-      <span class="transport-icon" aria-hidden="true">🚌</span>
+      <%= image_tag "/images/transport/bus.jpg", alt: "Micro turístico junto a un lago y montañas de la Patagonia", class: "transport-image", loading: "lazy" %>
+      <div class="transport-content">
       <h3>Viajes en micro</h3>
       <p>Disfrutá el camino y descubrí los destinos para viajar en micro.</p>
       <span class="text-link">Ver destinos en micro →</span>
+      </div>
     <% end %>
     <%= link_to destinations_path(transport_type: "airplane"), class: "transport-card" do %>
-      <span class="transport-icon" aria-hidden="true">✈️</span>
+      <%= image_tag "/images/transport/airplane.jpg", alt: "Avión de pasajeros sobre las nubes al amanecer", class: "transport-image", loading: "lazy" %>
+      <div class="transport-content">
       <h3>Viajes en avión</h3>
       <p>Encontrá los destinos para volar hacia tu próxima experiencia.</p>
       <span class="text-link">Ver destinos en avión →</span>
+      </div>
     <% end %>
   </div>
 </section>
