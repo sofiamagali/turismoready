@@ -1,22 +1,56 @@
-<h1>Destinos</h1>
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Lugares para descubrir</p>
+    <h1><%= @transport_type ? "Destinos para viajar en #{Trip::TRANSPORT_TYPES[@transport_type].downcase}" : "Destinos" %></h1>
+    <p>Elegí un destino para ver las fechas disponibles y sus precios.</p>
+    <% if current_user&.admin? %>
+      <%= link_to "Nuevo destino", new_destination_path, class: "button" %>
+    <% end %>
+  </div>
+</section>
 
-<p><%= link_to "Nuevo destino", new_destination_path %></p>
-
-<% if @destinations.any? %>
-  <% @destinations.each do |destination| %>
-    <article>
-      <% if destination.image_url.present? %>
-        <%= image_tag destination.image_url, alt: destination.name, width: 240 %>
+<section class="section container">
+  <% if @destinations.any? %>
+    <div class="trip-grid">
+      <% @destinations.each do |destination| %>
+        <article class="trip-card destination-card">
+          <div class="trip-card-image">
+            <% if destination.image_url.present? %>
+              <%= image_tag destination.image_url, alt: destination.name, loading: "lazy" %>
+            <% else %>
+              <div class="image-placeholder" role="img" aria-label="Imagen no disponible para <%= destination.name %>">
+                <span><%= destination.city %></span>
+              </div>
+            <% end %>
+          </div>
+          <div class="trip-card-content">
+            <p class="trip-destination"><%= destination.city %>, <%= destination.country %></p>
+            <h2><%= destination.name %></h2>
+            <span class="status-badge <%= 'status-badge-inactive' unless destination.active? %>"><%= destination.active? ? "Activo" : "Inactivo" %></span>
+            <p class="destination-description"><%= truncate(destination.description.presence || "Este destino todavía no tiene una descripción.", length: 160) %></p>
+            <div class="destination-actions">
+              <%= link_to "Ver destino", destination_path(destination, transport_type: @transport_type), class: "button button-small" %>
+              <% if current_user&.admin? %>
+              <%= link_to "Editar", edit_destination_path(destination), class: "text-link" %>
+              <%= button_to(destination.active? ? "Desactivar" : "Activar",
+                            toggle_active_destination_path(destination), method: :patch,
+                            class: "button button-small button-outline",
+                            aria: { label: "#{destination.active? ? 'Desactivar' : 'Activar'} #{destination.name}" }) %>
+              <% end %>
+            </div>
+          </div>
+        </article>
       <% end %>
-      <h2><%= destination.name %></h2>
-      <p><%= destination.city %>, <%= destination.country %></p>
-      <p>Estado: <%= destination.active? ? "Activo" : "Inactivo" %></p>
-      <%= link_to "Ver", destination_path(destination) %>
-      <%= link_to "Editar", edit_destination_path(destination) %>
-      <%= button_to(destination.active? ? "Desactivar" : "Activar",
-                    toggle_active_destination_path(destination), method: :patch) %>
-    </article>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <h2>No hay destinos cargados.</h2>
+      <% if current_user&.admin? %>
+        <p>Agregá el primer destino para empezar a organizar tus viajes.</p>
+        <%= link_to "Nuevo destino", new_destination_path, class: "button" %>
+      <% else %>
+        <p>Pronto vas a poder descubrir nuevos lugares para viajar.</p>
+      <% end %>
+    </div>
   <% end %>
-<% else %>
-  <p>No hay destinos cargados.</p>
-<% end %>
+</section>

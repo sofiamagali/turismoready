@@ -1,13 +1,13 @@
 require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
-  test "shows only active featured trips with friendly board labels" do
+  test "offers transport categories without dates or prices" do
     get root_path
-
     assert_response :success
-    assert_select "h3", text: trips(:bariloche_winter).name
-    assert_select "h3", text: trips(:mendoza_escape).name, count: 0
-    assert_select ".trip-card", text: /Media pensión/
+    assert_select "a[href=?]", destinations_path(transport_type: "bus"), text: /Viajes en micro/
+    assert_select "a[href=?]", destinations_path(transport_type: "airplane"), text: /Viajes en avión/
+    assert_select ".trip-card", count: 0
+    assert_select ".price, .detail-price, .departure-card", count: 0
   end
 
   test "shows public authentication navigation" do

@@ -1,11 +1,20 @@
 class DestinationsController < ApplicationController
+  before_action :set_transport_type, only: %i[index show]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :require_admin!, except: %i[index show]
   before_action :set_destination, only: %i[show edit update toggle_active]
 
   def index
     @destinations = Destination.order(:name)
+    if @transport_type
+      @destinations = @destinations.where(active: true).where(id: Trip.upcoming.where(transport_type: @transport_type).select(:destination_id))
+    end
   end
 
-  def show; end
+  def show
+    @trips = @destination.trips.upcoming.order(:start_date, :price, :name)
+    @trips = @trips.where(transport_type: @transport_type) if @transport_type
+  end
 
   def new
     @destination = Destination.new
@@ -38,6 +47,15 @@ class DestinationsController < ApplicationController
   end
 
   private
+
+  def set_transport_type
+    @transport_type = params[:transport_type].presence
+    head :bad_request if @transport_type && !Trip::TRANSPORT_TYPES.key?(@transport_type)
+  end
+
+  def require_admin!
+    head :forbidden unless current_user.admin?
+  end
 
   def set_destination
     @destination = Destination.find(params[:id])

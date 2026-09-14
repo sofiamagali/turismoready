@@ -2,28 +2,30 @@
   <div class="container hero-content">
     <p class="eyebrow">Viajes que se sienten</p>
     <h1>Encontrá tu próximo destino.</h1>
-    <p class="hero-copy">Paquetes pensados para que disfrutes desde el primer momento: vuelo, hotel y experiencias en un solo lugar.</p>
-    <%= link_to "Explorar viajes", trips_path, class: "button button-large" %>
+    <p class="hero-copy">Elegí cómo querés viajar, descubrí los destinos y encontrá la fecha ideal para vos.</p>
+    <%= link_to "Elegir cómo viajar", "#formas-de-viajar", class: "button button-large" %>
   </div>
 </section>
 
-<section class="section container">
+<section class="section container" id="formas-de-viajar" aria-labelledby="transport-heading">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Elegidos para vos</p>
-      <h2>Viajes destacados</h2>
+      <p class="eyebrow">Tu viaje empieza acá</p>
+      <h2 id="transport-heading">¿Cómo querés viajar?</h2>
     </div>
-    <%= link_to "Ver todos", trips_path, class: "text-link" %>
   </div>
-
-  <% if @featured_trips.any? %>
-    <div class="trip-grid">
-      <%= render partial: "trips/card", collection: @featured_trips, as: :trip %>
-    </div>
-  <% else %>
-    <div class="empty-state">
-      <h3>Próximamente nuevos viajes</h3>
-      <p>Estamos preparando experiencias para vos.</p>
-    </div>
-  <% end %>
+  <div class="trip-grid">
+    <%= link_to destinations_path(transport_type: "bus"), class: "transport-card" do %>
+      <span class="transport-icon" aria-hidden="true">🚌</span>
+      <h3>Viajes en micro</h3>
+      <p>Disfrutá el camino y descubrí los destinos para viajar en micro.</p>
+      <span class="text-link">Ver destinos en micro →</span>
+    <% end %>
+    <%= link_to destinations_path(transport_type: "airplane"), class: "transport-card" do %>
+      <span class="transport-icon" aria-hidden="true">✈️</span>
+      <h3>Viajes en avión</h3>
+      <p>Encontrá los destinos para volar hacia tu próxima experiencia.</p>
+      <span class="text-link">Ver destinos en avión →</span>
+    <% end %>
+  </div>
 </section>

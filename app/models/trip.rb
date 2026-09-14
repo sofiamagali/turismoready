@@ -1,4 +1,14 @@
 class Trip < ApplicationRecord
+  TRANSPORT_TYPES = { "bus" => "Micro", "airplane" => "Avión" }.freeze
+
+  scope :upcoming, -> { where(active: true).where("start_date >= ?", Date.current) }
+
+  validates :transport_type, inclusion: { in: TRANSPORT_TYPES.keys }
+
+  def transport_type_label
+    TRANSPORT_TYPES[transport_type]
+  end
+
   BOARD_TYPES = {
     "none" => "Sin pensión",
     "half_board" => "Media pensión",

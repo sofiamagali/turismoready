@@ -1,14 +1,71 @@
-<h1><%= @destination.name %></h1>
+<section class="trip-detail">
+  <div class="container">
+    <%= link_to "← Volver a destinos", destinations_path(transport_type: @transport_type), class: "text-link back-link" %>
+    <div class="trip-detail-grid">
+      <div class="trip-detail-image">
+        <% if @destination.image_url.present? %>
+          <%= image_tag @destination.image_url, alt: @destination.name %>
+        <% else %>
+          <div class="image-placeholder" role="img" aria-label="Imagen no disponible para <%= @destination.name %>">
+            <span><%= @destination.city %></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="trip-summary">
+        <p class="eyebrow"><%= @destination.city %>, <%= @destination.country %></p>
+        <h1><%= @destination.name %></h1>
+        <span class="status-badge <%= 'status-badge-inactive' unless @destination.active? %>"><%= @destination.active? ? "Activo" : "Inactivo" %></span>
+        <div class="trip-description"><%= simple_format(@destination.description.presence || "Sin descripción") %></div>
+        <dl class="detail-facts">
+          <div><dt>País</dt><dd><%= @destination.country %></dd></div>
+          <div><dt>Ciudad</dt><dd><%= @destination.city %></dd></div>
+        </dl>
+        <% if current_user&.admin? %>
+        <div class="destination-actions">
+          <%= link_to "Editar destino", edit_destination_path(@destination), class: "button" %>
+          <%= button_to(@destination.active? ? "Desactivar" : "Activar",
+                        toggle_active_destination_path(@destination), method: :patch,
+                        class: "button button-outline") %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
 
-<% if @destination.image_url.present? %>
-  <%= image_tag @destination.image_url, alt: @destination.name, width: 480 %>
-<% end %>
-
-<p><strong>País:</strong> <%= @destination.country %></p>
-<p><strong>Ciudad:</strong> <%= @destination.city %></p>
-<p><strong>Descripción:</strong> <%= @destination.description.presence || "Sin descripción" %></p>
-<p><strong>URL de imagen:</strong> <%= @destination.image_url.presence || "Sin imagen" %></p>
-<p><strong>Estado:</strong> <%= @destination.active? ? "Activo" : "Inactivo" %></p>
-
-<%= link_to "Editar", edit_destination_path(@destination) %>
-<%= link_to "Volver a destinos", destinations_path %>
+<section class="section container destination-departures" aria-labelledby="departures-heading">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Elegí cuándo viajar</p>
+      <h2 id="departures-heading">Próximas salidas<%= " en #{Trip::TRANSPORT_TYPES[@transport_type].downcase}" if @transport_type %></h2>
+      <p class="destination-description">Compará las fechas y los valores por persona para viajar a <%= @destination.name %>.</p>
+    </div>
+  </div>
+  <% if @trips.any? %>
+    <div class="departure-list">
+      <% @trips.each do |trip| %>
+        <article class="departure-card">
+          <div class="departure-info">
+            <h3><%= trip.name %></h3>
+            <span class="status-badge">Viaje en <%= trip.transport_type_label.downcase %></span>
+            <dl class="detail-facts departure-facts">
+              <div><dt>Salida</dt><dd><%= trip.start_date.strftime("%d/%m/%Y") %></dd></div>
+              <div><dt>Regreso</dt><dd><%= trip.end_date.strftime("%d/%m/%Y") %></dd></div>
+            </dl>
+            <p class="field-help"><%= trip.available_slots.positive? ? "#{trip.available_slots} cupos disponibles" : "Sin cupos" %></p>
+          </div>
+          <div class="departure-price">
+            <span class="price-label">Precio por persona</span>
+            <strong class="detail-price"><%= number_to_currency(trip.price, unit: "$", precision: 0, delimiter: ".") %></strong>
+            <%= link_to "Ver viaje", trip_path(trip), class: "button", aria: { label: "Ver #{trip.name}, salida #{trip.start_date.strftime('%d/%m/%Y')}" } %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <h3>No hay próximas salidas disponibles.</h3>
+      <p>Pronto vas a encontrar nuevas fechas para viajar a este destino.</p>
+    </div>
+  <% end %>
+</section>

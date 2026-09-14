@@ -36,7 +36,12 @@
   </div>
 
   <div>
-    <%= form.label :flight, "Vuelo" %><br>
+    <%= form.label :transport_type, "Tipo de transporte" %><br>
+    <%= form.select :transport_type, Trip::TRANSPORT_TYPES.map { |value, label| [label, value] } %>
+  </div>
+
+  <div>
+    <%= form.label :flight, "Detalle del transporte" %><br>
     <%= form.text_field :flight %>
   </div>
 

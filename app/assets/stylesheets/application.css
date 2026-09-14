@@ -300,3 +300,52 @@ input, select, textarea {
   .form-grid, .reservation-summary { grid-template-columns: 1fr; }
   .reservation-heading { align-items: flex-start; flex-direction: column; }
 }
+
+.destination-card h2 { margin: 0.25rem 0 0.65rem; font-size: 1.55rem; line-height: 1.2; }
+.destination-card .trip-card-content { display: flex; flex-direction: column; height: calc(100% - 260px); }
+.destination-card .status-badge { align-self: flex-start; }
+.destination-description { color: var(--muted); }
+.destination-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.destination-actions form { margin: 0; }
+.destination-card .destination-actions { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.status-badge-inactive { color: var(--muted); background: #edf0ef; }
+.destination-form-page { max-width: 800px; }
+.destination-form { padding: 2rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--white); }
+.destination-field-wide { grid-column: 1 / -1; }
+.destination-active-field { display: flex; align-items: center; gap: 0.65rem; margin-block: 1.5rem; }
+.destination-active-field input { width: 1.1rem; height: 1.1rem; accent-color: var(--ocean); }
+.destination-active-field label { font-weight: 750; }
+.destination-form input[type="submit"] { width: auto; }
+.destination-form textarea { resize: vertical; }
+.field-help { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.82rem; }
+.destination-form input:focus-visible, .destination-form textarea:focus-visible { outline: 2px solid var(--ocean); outline-offset: 2px; }
+.destination-actions .button-outline:hover { color: var(--white); }
+.destination-card h2, .trip-summary h1, .trip-description, .destination-description, .detail-facts dd { overflow-wrap: anywhere; }
+
+@media (max-width: 520px) {
+  .destination-form { padding: 1.25rem; }
+  .destination-card .trip-card-content { height: calc(100% - 220px); }
+}
+
+.destination-departures { padding-top: 0; }
+.departure-list { display: grid; gap: 1rem; }
+.departure-card { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.5rem; background: var(--white); border: 1px solid var(--line); border-radius: 1rem; }
+.departure-info { min-width: 0; }
+.departure-info h3 { margin: 0 0 1rem; font-size: 1.4rem; overflow-wrap: anywhere; }
+.departure-facts { margin: 0; }
+.departure-price { flex-shrink: 0; }
+.departure-price .button { margin-top: 0.75rem; }
+@media (max-width: 520px) {
+  .departure-card { align-items: stretch; flex-direction: column; gap: 1rem; }
+  .departure-facts { grid-template-columns: 1fr 1fr; }
+  .departure-price { border-top: 1px solid var(--line); padding-top: 1rem; }
+}
+
+.transport-card { display: flex; flex-direction: column; padding: 2.5rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--sand); text-decoration: none; transition: box-shadow 160ms ease, transform 160ms ease; }
+.transport-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.transport-card:focus-visible { outline: 3px solid var(--ocean); outline-offset: 4px; }
+.transport-icon { font-size: 3rem; }
+.transport-card h3 { margin: 1rem 0 0; font-size: 2rem; letter-spacing: -0.04em; }
+.transport-card p { color: var(--muted); }
+.transport-card .text-link { margin-top: auto; padding-top: 1rem; }
+#formas-de-viajar { scroll-margin-top: 100px; }

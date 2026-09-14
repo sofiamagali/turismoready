@@ -1,6 +1,6 @@
-<%= form_with model: destination do |form| %>
+<%= form_with model: destination, class: "destination-form" do |form| %>
   <% if destination.errors.any? %>
-    <div>
+    <div class="form-errors" role="alert">
       <h2>No se pudo guardar el destino:</h2>
       <ul>
         <% destination.errors.full_messages.each do |message| %>
@@ -10,35 +10,36 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, "Nombre" %><br>
-    <%= form.text_field :name %>
+  <div class="form-grid">
+    <div class="destination-field-wide">
+      <%= form.label :name, "Nombre" %>
+      <%= form.text_field :name, required: true %>
+    </div>
+    <div>
+      <%= form.label :country, "País" %>
+      <%= form.text_field :country, required: true %>
+    </div>
+    <div>
+      <%= form.label :city, "Ciudad" %>
+      <%= form.text_field :city, required: true %>
+    </div>
+    <div class="destination-field-wide">
+      <%= form.label :description, "Descripción" %>
+      <%= form.text_area :description, rows: 5 %>
+    </div>
+    <div class="destination-field-wide">
+      <%= form.label :image_url, "URL de imagen" %>
+      <%= form.url_field :image_url, placeholder: "https://ejemplo.com/destino.jpg", aria: { describedby: "destination-image-help" } %>
+      <p id="destination-image-help" class="field-help">Opcional. Si no cargás una imagen, se mostrará el nombre de la ciudad.</p>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :country, "País" %><br>
-    <%= form.text_field :country %>
-  </div>
-
-  <div>
-    <%= form.label :city, "Ciudad" %><br>
-    <%= form.text_field :city %>
-  </div>
-
-  <div>
-    <%= form.label :description, "Descripción" %><br>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :image_url, "URL de imagen" %><br>
-    <%= form.url_field :image_url %>
-  </div>
-
-  <div>
+  <div class="destination-active-field">
     <%= form.check_box :active %>
-    <%= form.label :active, "Activo" %>
+    <%= form.label :active, "Destino activo" %>
   </div>
-
-  <%= form.submit "Guardar destino" %>
+  <div class="destination-actions">
+    <%= form.submit "Guardar destino", class: "button" %>
+    <%= link_to "Cancelar", destination.persisted? ? destination_path(destination) : destinations_path, class: "text-link" %>
+  </div>
 <% end %>

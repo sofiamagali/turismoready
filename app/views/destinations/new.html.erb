@@ -1,5 +1,8 @@
-<h1>Nuevo destino</h1>
-
-<%= render "form", destination: @destination %>
-
-<%= link_to "Volver a destinos", destinations_path %>
+<section class="section container destination-form-page">
+  <%= link_to "← Volver a destinos", destinations_path, class: "text-link back-link" %>
+  <div class="reservation-heading">
+    <h1>Nuevo destino</h1>
+  </div>
+  <p class="destination-description">Completá los datos y la imagen que representarán este destino.</p>
+  <%= render "form", destination: @destination %>
+</section>
