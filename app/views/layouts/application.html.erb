@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AeroGirls</title>
+    <title>AeroDevs</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,7 +13,7 @@
   <body>
     <header class="site-header">
       <nav class="navbar container" aria-label="Navegación principal">
-        <%= link_to "AeroGirls", root_path, class: "brand" %>
+        <%= link_to "AeroDevs", root_path, class: "brand" %>
         <div class="nav-links">
           <%= link_to "Inicio", root_path %>
           <%= link_to "Viajes", trips_path %>
@@ -36,8 +36,8 @@
 
     <footer class="site-footer">
       <div class="container footer-content">
-        <div><strong>AeroGirls</strong><br><span>Tu próximo viaje empieza acá.</span></div>
-        <span>Turismo simple, destinos inolvidables.</span>
+        <div><strong>AeroDevs</strong><br><span>Tu próximo viaje empieza acá.</span></div>
+        <span>Turismo simple, destinos inolvidables.<br><%= link_to "Créditos de las fotografías", "/images/destinations/credits.html" %></span>
       </div>
     </footer>
   </body>

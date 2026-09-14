@@ -1,8 +1,8 @@
 destinations = [
-  { name: "Bariloche", country: "Argentina", city: "San Carlos de Bariloche", description: "Lagos, montañas y naturaleza en la Patagonia." },
-  { name: "Mendoza", country: "Argentina", city: "Mendoza", description: "Vinos, gastronomía y paisajes al pie de los Andes." },
-  { name: "Ushuaia", country: "Argentina", city: "Ushuaia", description: "La ciudad más austral del mundo y puerta de entrada a Tierra del Fuego." },
-  { name: "Río de Janeiro", country: "Brasil", city: "Río de Janeiro", description: "Playas, cultura y paisajes emblemáticos de Brasil." }
+  { name: "Bariloche", image_url: "/images/destinations/bariloche.jpg", country: "Argentina", city: "San Carlos de Bariloche", description: "Lagos, montañas y naturaleza en la Patagonia." },
+  { name: "Mendoza", image_url: "/images/destinations/mendoza.jpg", country: "Argentina", city: "Mendoza", description: "Vinos, gastronomía y paisajes al pie de los Andes." },
+  { name: "Ushuaia", image_url: "/images/destinations/ushuaia.jpg", country: "Argentina", city: "Ushuaia", description: "La ciudad más austral del mundo y puerta de entrada a Tierra del Fuego." },
+  { name: "Río de Janeiro", image_url: "/images/destinations/rio-de-janeiro.jpg", country: "Brasil", city: "Río de Janeiro", description: "Playas, cultura y paisajes emblemáticos de Brasil." }
 ]
 
 destinations.each do |attributes|
