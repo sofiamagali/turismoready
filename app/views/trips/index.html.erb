@@ -2,7 +2,12 @@
   <div class="container">
     <p class="eyebrow">Próximas salidas</p>
     <h1>Elegí tu próximo viaje</h1>
-    <p>Descubrí nuestros paquetes activos con vuelo, alojamiento y régimen incluido.</p>
+    <p>Descubrí nuestros paquetes en <%= Trip::TRANSPORT_TYPES[@transport_type].downcase %>, con alojamiento y régimen incluido.</p>
+    <nav class="destination-actions" aria-label="Tipo de viaje">
+      <% Trip::TRANSPORT_TYPES.each do |value, label| %>
+        <%= link_to "Viajes en #{label.downcase}", trips_path(transport_type: value), class: "button button-outline", aria: { current: (@transport_type == value ? "page" : nil) } %>
+      <% end %>
+    </nav>
   </div>
 </section>
 

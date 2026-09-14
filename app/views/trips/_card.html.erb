@@ -11,17 +11,20 @@
 
   <div class="trip-card-content">
     <p class="trip-destination"><%= trip.destination.city %>, <%= trip.destination.country %></p>
-    <h3><%= trip.name %></h3>
-    <% if trip.remaining_slots.zero? %><span class="status-badge status-badge-inactive">Completo</span><% end %>
+    <h3><%= trip.name %><% if trip.remaining_slots.zero? %> <span class="trip-complete">COMPLETO</span><% end %></h3>
     <dl class="trip-facts">
       <div><dt>Fechas</dt><dd><%= trip.start_date.strftime("%d/%m/%Y") %> — <%= trip.end_date.strftime("%d/%m/%Y") %></dd></div>
-      <div><dt>Vuelo</dt><dd><%= trip.flight.presence || "A confirmar" %></dd></div>
+      <div><dt><%= trip.transport_type_label %></dt><dd><%= trip.flight.presence || "A confirmar" %></dd></div>
       <div><dt>Hotel</dt><dd><%= trip.hotel.presence || "A confirmar" %></dd></div>
       <div><dt>Pensión</dt><dd><%= trip.board_type_label %></dd></div>
     </dl>
     <div class="trip-card-footer">
       <div><span class="price-label">Precio por persona</span><strong class="price"><%= number_to_currency(trip.price, unit: "$", precision: 0, delimiter: ".") %></strong></div>
-      <%= link_to "Ver viaje", trip_path(trip), class: "button" %>
+      <% if trip.remaining_slots.zero? %>
+        <button type="button" class="button" disabled>Ver viaje</button>
+      <% else %>
+        <%= link_to "Ver viaje", trip_path(trip), class: "button" %>
+      <% end %>
     </div>
   </div>
 </article>

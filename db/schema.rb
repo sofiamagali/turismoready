@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_09_14_160000) do
+ActiveRecord::Schema[7.0].define(version: 2026_09_14_180000) do
   create_table "destinations", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "country"
@@ -70,6 +70,11 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_14_160000) do
     t.string "transport_type", default: "airplane", null: false
     t.string "source_url"
     t.date "source_checked_on"
+    t.text "general_details"
+    t.text "excursions"
+    t.text "hotel_details"
+    t.text "itinerary"
+    t.text "boarding_points"
     t.index ["destination_id"], name: "index_trips_on_destination_id"
   end
 

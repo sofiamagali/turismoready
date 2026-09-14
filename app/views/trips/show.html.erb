@@ -1,6 +1,6 @@
 <section class="trip-detail">
   <div class="container">
-    <%= link_to "← Volver a viajes", trips_path, class: "text-link back-link" %>
+    <%= link_to "← Volver a viajes", trips_path(transport_type: @trip.transport_type), class: "text-link back-link" %>
     <div class="trip-detail-grid">
       <div class="trip-detail-image">
         <% if @trip.destination.image_url.present? %>
@@ -36,4 +36,4 @@
   </div>
 </section>
 
-<%= render "destinations/program_details", destination: @trip.destination if @trip.transport_type == "bus" %>
+<%= render "destinations/program_details", trip: @trip %>

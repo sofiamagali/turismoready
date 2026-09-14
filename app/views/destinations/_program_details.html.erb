@@ -1,11 +1,11 @@
-<% sections = { general_details: "Detalle General", excursions: "Excursiones", hotel_details: "Nuestra Hotelería", itinerary: "Itinerario de Actividades", boarding_points: "Puntos de Embarque" } %>
-<% if sections.keys.any? { |field| destination.public_send(field).present? } %>
+<% sections = { general_details: "Detalle General", excursions: "Excursiones", hotel_details: "Nuestra Hotelería", itinerary: "Itinerario de Actividades", boarding_points: (trip.transport_type == "airplane" ? "Información de Vuelos y Aeropuertos" : "Puntos de Embarque") } %>
+<% if sections.keys.any? { |field| trip.public_send(field).present? } %>
 <section class="section container destination-program">
   <% sections.each do |field, title| %>
-    <% if destination.public_send(field).present? %>
+    <% if trip.public_send(field).present? %>
       <div class="program-section">
         <h2><%= title %></h2>
-        <%= simple_format(destination.public_send(field)) %>
+        <%= simple_format(trip.public_send(field)) %>
       </div>
     <% end %>
   <% end %>

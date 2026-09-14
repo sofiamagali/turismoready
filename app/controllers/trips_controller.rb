@@ -5,7 +5,11 @@ class TripsController < ApplicationController
   before_action :set_destinations, only: %i[new create edit update]
 
   def index
+    @transport_type = params[:transport_type].presence || "airplane"
+    return head :bad_request unless Trip::TRANSPORT_TYPES.key?(@transport_type)
+
     @trips = Trip.includes(:destination).where(active: true).order(:start_date, :name)
+    @trips = @trips.where(transport_type: @transport_type)
   end
 
   def show; end
@@ -57,6 +61,7 @@ class TripsController < ApplicationController
   def trip_params
     params.require(:trip).permit(:destination_id, :name, :description, :start_date,
                                  :end_date, :price, :available_slots, :flight, :hotel,
-                                 :board_type, :active, :transport_type)
+                                 :board_type, :active, :transport_type,
+                                 :general_details, :excursions, :hotel_details, :itinerary, :boarding_points)
   end
 end

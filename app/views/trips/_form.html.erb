@@ -11,6 +11,18 @@
   <% end %>
 
   <div class="form-grid">
+    <fieldset class="destination-field-wide trip-transport-field">
+      <legend>¿Viajás en micro o en avión?</legend>
+      <div class="trip-transport-options">
+        <% Trip::TRANSPORT_TYPES.each do |value, label| %>
+          <label class="trip-transport-option" for="trip_transport_type_<%= value %>">
+            <%= form.radio_button :transport_type, value, required: true %>
+            <span><%= label %></span>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+
     <div class="destination-field-wide">
       <%= form.label :destination_id, "Destino" %>
       <%= form.collection_select :destination_id, destinations, :id, :name, prompt: "Seleccioná un destino" %>
@@ -26,6 +38,13 @@
       <%= form.text_area :description, rows: 4 %>
     </div>
 
+    <% { general_details: "Detalle general", excursions: "Excursiones", hotel_details: "Nuestra hotelería", itinerary: "Itinerario de actividades", boarding_points: "Aeropuertos o puntos de embarque" }.each do |field, label| %>
+      <div class="destination-field-wide">
+        <%= form.label field, label %>
+        <%= form.text_area field, rows: 6 %>
+      </div>
+    <% end %>
+
     <div>
       <%= form.label :start_date, "Fecha de inicio" %>
       <%= form.date_field :start_date %>
@@ -34,11 +53,6 @@
     <div>
       <%= form.label :end_date, "Fecha de fin" %>
       <%= form.date_field :end_date %>
-    </div>
-
-    <div>
-      <%= form.label :transport_type, "Tipo de transporte" %>
-      <%= form.select :transport_type, Trip::TRANSPORT_TYPES.map { |value, label| [label, value] } %>
     </div>
 
     <div>

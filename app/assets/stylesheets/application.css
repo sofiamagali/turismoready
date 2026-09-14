@@ -270,6 +270,12 @@ input, select, textarea {
 .passenger-count-box select { width: auto; min-width: 90px; }
 .passenger-fields legend { padding-inline: 0.5rem; color: var(--ocean-dark); font-weight: 850; }
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.trip-transport-field { margin: 0; padding: 0; border: 0; min-width: 0; }
+.trip-transport-field legend { margin-bottom: 0.6rem; font-weight: 750; }
+.trip-transport-options { display: flex; flex-wrap: wrap; gap: 1rem; }
+.form-grid .trip-transport-option { display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 0.75rem; cursor: pointer; }
+.trip-transport-option input[type="radio"] { width: auto; margin: 0; }
+.trip-transport-option:has(input:checked) { border-color: var(--ocean-dark); background: var(--white); }
 .form-errors { margin-block: 1rem; padding: 1rem 1.25rem; color: #8c2925; background: #fff0ef; border-radius: 0.7rem; }
 .reservation-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .status-badge { display: inline-block; margin: 0.4rem 0; padding: 0.25rem 0.65rem; color: var(--ocean-dark); background: #dff4f2; border-radius: 999px; font-size: 0.82rem; font-weight: 800; }
@@ -316,6 +322,7 @@ input, select, textarea {
 .destination-actions form { margin: 0; }
 .destination-card .destination-actions { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--line); }
 .status-badge-inactive { color: var(--muted); background: #edf0ef; }
+.trip-complete { display: inline-block; color: #c62828; font-size: 0.82rem; font-weight: 800; vertical-align: middle; }
 .destination-form-page { max-width: 800px; }
 .destination-form { padding: 2rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--white); }
 .destination-field-wide { grid-column: 1 / -1; }

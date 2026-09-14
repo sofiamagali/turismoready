@@ -5,6 +5,7 @@ class DestinationsController < ApplicationController
   before_action :set_destination, only: %i[show edit update toggle_active]
 
   def index
+    @transport_type ||= "airplane"
     @destinations = Destination.order(:name)
     if @transport_type
       @destinations = @destinations.where(active: true).where(id: Trip.upcoming.where(transport_type: @transport_type).select(:destination_id))
@@ -12,8 +13,10 @@ class DestinationsController < ApplicationController
   end
 
   def show
+    @transport_type ||= @destination.trips.upcoming.exists?(transport_type: "airplane") ? "airplane" : "bus"
     @trips = @destination.trips.upcoming.order(:start_date, :price, :name)
     @trips = @trips.where(transport_type: @transport_type) if @transport_type
+    @program_trip = @trips.first
   end
 
   def new
@@ -62,7 +65,6 @@ class DestinationsController < ApplicationController
   end
 
   def destination_params
-    params.require(:destination).permit(:name, :country, :city, :description, :image_url, :active,
-                                       :general_details, :excursions, :hotel_details, :itinerary, :boarding_points)
+    params.require(:destination).permit(:name, :country, :city, :description, :image_url, :active)
   end
 end

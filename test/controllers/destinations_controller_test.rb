@@ -150,21 +150,21 @@ class DestinationsControllerTest < ActionDispatch::IntegrationTest
     get destination_path(@destination)
     assert_response :success
     assert_select ".departure-card h3", text: first.name
-    assert_select ".departure-card h3", text: later.name
+    assert_select ".departure-card h3", text: "#{later.name} COMPLETO"
     assert_select ".departure-card h3", text: inactive.name, count: 0
     assert_select ".departure-card h3", text: past.name, count: 0
     assert_select ".departure-card h3", text: other.name, count: 0
     assert_select ".departure-card h3" do |headings|
-      assert_equal [first.name, later.name], headings.map(&:text)
+      assert_equal [first.name, later.name], headings.map { |heading| heading.children.select(&:text?).map(&:text).join.strip }
     end
     [first, later].each do |trip|
       assert_select ".departure-card dd", text: trip.start_date.strftime("%d/%m/%Y")
       assert_select ".departure-card dd", text: trip.end_date.strftime("%d/%m/%Y")
-      assert_select ".departure-card a[href=?]", trip_path(trip)
+      assert_select ".departure-card a[href=?]", trip_path(trip), count: (trip.remaining_slots.positive? ? 1 : 0)
     end
     assert_select ".departure-card .detail-price", text: "$850.000"
     assert_select ".departure-card .detail-price", text: "$950.000"
-    assert_select ".departure-card", text: /Sin cupos/
+    assert_select ".departure-card", text: /Completo/
   end
 
   test "shows empty state when destination has no upcoming departures" do
@@ -216,4 +216,29 @@ class DestinationsControllerTest < ActionDispatch::IntegrationTest
     get destination_path(@destination, transport_type: "unknown")
     assert_response :bad_request
   end
+  test "airplane destination never renders the bus program" do
+    @destination.update!(general_details: "Bus semicama confort plus", boarding_points: "Terminal de ómnibus")
+    flight = trips(:bariloche_winter)
+    flight.update!(general_details: "Vuelo JetSMART a Bariloche", hotel_details: "Hotel Patagonia", boarding_points: "Presentación en aeropuerto")
+    bus = @destination.trips.create!(flight.attributes.except("id", "created_at", "updated_at").merge(name: "Bariloche micro", transport_type: "bus", general_details: "Bus semicama confort plus", boarding_points: "Terminal de ómnibus"))
+    get destination_path(@destination, transport_type: "airplane")
+    assert_response :success
+    assert_select ".destination-program", text: /Vuelo JetSMART/
+    assert_select ".destination-program", text: /Bus semicama/, count: 0
+    assert_select ".departure-card h3", text: bus.name, count: 0
+    get destination_path(@destination, transport_type: "bus")
+    assert_select ".destination-program", text: /Bus semicama/
+    assert_select ".destination-program", text: /Vuelo JetSMART/, count: 0
+    get trip_path(flight)
+    assert_response :success
+    assert_select ".destination-program", text: /Presentación en aeropuerto/
+    assert_select ".destination-program", text: /Terminal de ómnibus/, count: 0
+    get trips_path(transport_type: "airplane")
+    assert_select ".trip-card h3", text: flight.name
+    assert_select ".trip-card h3", text: bus.name, count: 0
+    get trips_path(transport_type: "bus")
+    assert_select ".trip-card h3", text: bus.name
+    assert_select ".trip-card h3", text: flight.name, count: 0
+  end
+
 end
