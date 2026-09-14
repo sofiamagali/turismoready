@@ -28,6 +28,33 @@ class ReservationTest < ActiveSupport::TestCase
     assert excessive.errors[:passengers].any?
   end
 
+  test "shared capacity blocks another departure and cancellation restores seats" do
+    @trip.destination.update!(shared_bus_slots: 2)
+    @trip.update!(transport_type: "bus", source_url: "https://example.com/program", available_slots: 2)
+    other = @trip.destination.trips.create!(@trip.attributes.except("id", "created_at", "updated_at").merge(name: "Otra salida"))
+    reservation = build_reservation(2)
+    assert reservation.save
+    assert_equal 0, @trip.reload.remaining_slots
+    assert_equal 0, other.reload.remaining_slots
+    assert @trip.destination.complete?
+    blocked = build_reservation(1)
+    blocked.trip = other
+    assert_not blocked.save
+    assert reservation.update(status: "cancelled")
+    assert_equal 2, other.reload.remaining_slots
+    assert_equal 2, @trip.reload.available_slots
+  end
+
+  test "editing and confirming a reservation do not consume seats twice" do
+    reservation = build_reservation(2)
+    assert reservation.save
+    assert_equal 18, @trip.reload.available_slots
+    assert reservation.update(status: "awaiting_payment")
+    assert_equal 18, @trip.reload.available_slots
+    assert reservation.update(passengers_attributes: [{ id: reservation.passengers.first.id, first_name: "Cambio" }])
+    assert_equal 18, @trip.reload.available_slots
+  end
+
   private
 
   def build_reservation(passenger_count)

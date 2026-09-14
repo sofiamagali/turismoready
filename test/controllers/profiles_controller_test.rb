@@ -24,9 +24,9 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     paid = reserve(@buyer, "paid")
     unpaid = reserve(@buyer, "awaiting_payment")
     cancelled = reserve(@buyer, "cancelled")
-    paid.trip.update_columns(start_date: Date.new(2025, 1, 1), end_date: Date.new(2025, 1, 5), active: false)
     other = User.create!(first_name: "Otra", last_name: "Persona", email: "profile-other@example.com", password: "password123")
     hidden = reserve(other, "paid")
+    paid.trip.update_columns(start_date: Date.new(2025, 1, 1), end_date: Date.new(2025, 1, 5), active: false)
     sign_in @buyer
 
     get profile_path
