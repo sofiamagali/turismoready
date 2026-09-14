@@ -1,6 +1,6 @@
-<%= form_with model: trip do |form| %>
+<%= form_with model: trip, class: "destination-form" do |form| %>
   <% if trip.errors.any? %>
-    <div>
+    <div class="form-errors" role="alert">
       <h2>No se pudo guardar el viaje:</h2>
       <ul>
         <% trip.errors.full_messages.each do |message| %>
@@ -10,65 +10,70 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :destination_id, "Destino" %><br>
-    <%= form.collection_select :destination_id, destinations, :id, :name, prompt: "Seleccioná un destino" %>
+  <div class="form-grid">
+    <div class="destination-field-wide">
+      <%= form.label :destination_id, "Destino" %>
+      <%= form.collection_select :destination_id, destinations, :id, :name, prompt: "Seleccioná un destino" %>
+    </div>
+
+    <div class="destination-field-wide">
+      <%= form.label :name, "Nombre" %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="destination-field-wide">
+      <%= form.label :description, "Descripción" %>
+      <%= form.text_area :description, rows: 4 %>
+    </div>
+
+    <div>
+      <%= form.label :start_date, "Fecha de inicio" %>
+      <%= form.date_field :start_date %>
+    </div>
+
+    <div>
+      <%= form.label :end_date, "Fecha de fin" %>
+      <%= form.date_field :end_date %>
+    </div>
+
+    <div>
+      <%= form.label :transport_type, "Tipo de transporte" %>
+      <%= form.select :transport_type, Trip::TRANSPORT_TYPES.map { |value, label| [label, value] } %>
+    </div>
+
+    <div>
+      <%= form.label :flight, "Detalle del transporte" %>
+      <%= form.text_field :flight %>
+    </div>
+
+    <div>
+      <%= form.label :hotel, "Hotel" %>
+      <%= form.text_field :hotel %>
+    </div>
+
+    <div>
+      <%= form.label :board_type, "Pensión" %>
+      <%= form.select :board_type, Trip.board_type_options %>
+    </div>
+
+    <div>
+      <%= form.label :price, "Precio" %>
+      <%= form.number_field :price, min: 0.01, step: 0.01 %>
+    </div>
+
+    <div>
+      <%= form.label :available_slots, "Cupos disponibles" %>
+      <%= form.number_field :available_slots, min: 0, step: 1 %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :name, "Nombre" %><br>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :description, "Descripción" %><br>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :start_date, "Fecha de inicio" %><br>
-    <%= form.date_field :start_date %>
-  </div>
-
-  <div>
-    <%= form.label :end_date, "Fecha de fin" %><br>
-    <%= form.date_field :end_date %>
-  </div>
-
-  <div>
-    <%= form.label :transport_type, "Tipo de transporte" %><br>
-    <%= form.select :transport_type, Trip::TRANSPORT_TYPES.map { |value, label| [label, value] } %>
-  </div>
-
-  <div>
-    <%= form.label :flight, "Detalle del transporte" %><br>
-    <%= form.text_field :flight %>
-  </div>
-
-  <div>
-    <%= form.label :hotel, "Hotel" %><br>
-    <%= form.text_field :hotel %>
-  </div>
-
-  <div>
-    <%= form.label :board_type, "Pensión" %><br>
-    <%= form.select :board_type, Trip.board_type_options %>
-  </div>
-
-  <div>
-    <%= form.label :price, "Precio" %><br>
-    <%= form.number_field :price, min: 0.01, step: 0.01 %>
-  </div>
-
-  <div>
-    <%= form.label :available_slots, "Cupos disponibles" %><br>
-    <%= form.number_field :available_slots, min: 0, step: 1 %>
-  </div>
-
-  <div>
+  <div class="destination-active-field">
     <%= form.check_box :active %>
-    <%= form.label :active, "Activo" %>
+    <%= form.label :active, "Viaje activo" %>
   </div>
 
-  <%= form.submit "Guardar viaje" %>
+  <div class="destination-actions">
+    <%= form.submit "Guardar viaje", class: "button" %>
+    <%= link_to "Cancelar", trip.persisted? ? trip_path(trip) : trips_path, class: "text-link" %>
+  </div>
 <% end %>

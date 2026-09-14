@@ -1,5 +1,8 @@
-<h1>Nuevo viaje</h1>
-
-<%= render "form", trip: @trip, destinations: @destinations %>
-
-<%= link_to "Volver a viajes", trips_path %>
+<section class="section container destination-form-page">
+  <%= link_to "← Volver a viajes", trips_path, class: "text-link back-link" %>
+  <div class="reservation-heading">
+    <h1>Nuevo viaje</h1>
+  </div>
+  <p class="destination-description">Completá los datos de la salida, el alojamiento y el programa del viaje.</p>
+  <%= render "form", trip: @trip, destinations: @destinations %>
+</section>
