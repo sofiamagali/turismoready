@@ -1,8 +1,10 @@
+require_dependency Rails.root.join("app/services/mercadopago_checkout").to_s
+
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_trip, only: %i[new create]
   before_action :ensure_bookable, only: %i[new create]
-  before_action :set_reservation, only: %i[show edit update confirm]
+  before_action :set_reservation, only: %i[show edit update confirm checkout fake_payment]
   before_action :ensure_editable, only: %i[edit update]
 
   def new
@@ -44,6 +46,33 @@ class ReservationsController < ApplicationController
 
     @reservation.update!(status: "awaiting_payment")
     redirect_to @reservation, notice: "Reserva confirmada. El pago está pendiente."
+  end
+
+  def checkout
+    unless @reservation.awaiting_payment?
+      redirect_to @reservation, alert: "La reserva no está pendiente de pago."
+      return
+    end
+
+    redirect_to MercadopagoCheckout.create!(@reservation), allow_other_host: true
+  rescue StandardError => e
+    Rails.logger.error("Mercado Pago checkout: #{e.class}: #{e.message}")
+    redirect_to @reservation, alert: "No se pudo iniciar el pago. Revisá la configuración de Mercado Pago."
+  end
+
+  def fake_payment
+    unless Rails.env.development?
+      head :not_found
+      return
+    end
+
+    unless @reservation.awaiting_payment?
+      redirect_to @reservation, alert: "La reserva no está pendiente de pago."
+      return
+    end
+
+    @reservation.update!(status: "paid", mercadopago_payment_id: "FAKE-#{SecureRandom.hex(6).upcase}")
+    redirect_to @reservation, notice: "Pago simulado aprobado correctamente."
   end
 
   private

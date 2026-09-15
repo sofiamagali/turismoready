@@ -1,4 +1,4 @@
-FROM ruby:3.2.3
+FROM docker.io/library/ruby:3.2.3
 
 RUN apt-get update -qq \
     && apt-get install -y --no-install-recommends default-libmysqlclient-dev \

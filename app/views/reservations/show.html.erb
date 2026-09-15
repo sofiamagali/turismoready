@@ -41,6 +41,11 @@
     </div>
     <% if @reservation.pending? %>
       <%= button_to "Confirmar reserva", confirm_reservation_path(@reservation), method: :patch, class: "button button-large" %>
+    <% elsif @reservation.awaiting_payment? %>
+      <%= button_to "Pagar con Mercado Pago", checkout_reservation_path(@reservation), method: :post, class: "button button-large", data: { turbo: false } %>
+      <% if Rails.env.development? %>
+        <%= button_to "Simular pago aprobado", fake_payment_reservation_path(@reservation), method: :post, class: "button button-outline" %>
+      <% end %>
     <% end %>
   </div>
 </section>
