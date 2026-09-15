@@ -29,6 +29,7 @@ gem "jbuilder"
 
 # User authentication
 gem "devise", "~> 4.9"
+gem "mercadopago-sdk", "~> 2.4"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
