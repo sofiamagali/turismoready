@@ -18,8 +18,8 @@
         <% end %>
         <div class="nav-links">
           <%= link_to "Inicio", root_path %>
-          <%= link_to "Viajes", trips_path %>
           <%= link_to "Destinos", destinations_path %>
+          <%= link_to "Viajes", trips_path %>
           <% if user_signed_in? %>
             <%= link_to "Mi perfil", profile_path %>
             <span class="user-greeting">Hola, <%= current_user.first_name %></span>
