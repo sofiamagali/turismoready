@@ -1,0 +1,55 @@
+# Traducciones de Devise — español (Argentina)
+
+es:
+  devise:
+    confirmations:
+      confirmed: "Confirmaste tu correo electrónico correctamente."
+      send_instructions: "En unos minutos vas a recibir un correo con instrucciones para confirmar tu cuenta."
+      send_paranoid_instructions: "Si tu correo está registrado, en unos minutos vas a recibir un mensaje con instrucciones para confirmarlo."
+    failure:
+      already_authenticated: "Ya iniciaste sesión."
+      inactive: "Tu cuenta todavía no está activa."
+      invalid: "El correo electrónico o la contraseña no son correctos."
+      locked: "Tu cuenta está bloqueada."
+      last_attempt: "Te queda un intento antes de que se bloquee tu cuenta."
+      not_found_in_database: "El correo electrónico o la contraseña no son correctos."
+      timeout: "Tu sesión expiró. Volvé a iniciar sesión para continuar."
+      unauthenticated: "Tenés que iniciar sesión o registrarte para continuar."
+      unconfirmed: "Tenés que confirmar tu correo electrónico antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions:
+        subject: "Instrucciones para restablecer tu contraseña"
+      unlock_instructions:
+        subject: "Instrucciones para desbloquear tu cuenta"
+      email_changed:
+        subject: "Cambio de correo electrónico"
+      password_change:
+        subject: "Contraseña modificada"
+    omniauth_callbacks:
+      failure: "No pudimos autenticarte con %{kind} porque \"%{reason}\"."
+      success: "Iniciaste sesión correctamente con tu cuenta de %{kind}."
+    passwords:
+      no_token: "No podés acceder a esta página sin venir desde el correo de restablecimiento de contraseña. Si llegaste desde ese correo, asegurate de usar el enlace completo."
+      send_instructions: "En unos minutos vas a recibir un correo con instrucciones para restablecer tu contraseña."
+      send_paranoid_instructions: "Si tu correo está registrado, en unos minutos vas a recibir un enlace para recuperar tu contraseña."
+      updated: "Cambiaste tu contraseña correctamente. Ya iniciaste sesión."
+      updated_not_active: "Cambiaste tu contraseña correctamente."
+    registrations:
+      destroyed: "Tu cuenta se eliminó correctamente. Esperamos verte de nuevo pronto."
+      signed_up: "¡Tu cuenta se creó correctamente! Ya podés comenzar a explorar nuestros viajes."
+      signed_up_but_inactive: "Te registraste correctamente, pero no pudimos iniciar sesión porque tu cuenta todavía no está activa."
+      signed_up_but_locked: "Te registraste correctamente, pero no pudimos iniciar sesión porque tu cuenta está bloqueada."
+      signed_up_but_unconfirmed: "Te enviamos un correo con un enlace de confirmación. Seguí el enlace para activar tu cuenta."
+      update_needs_confirmation: "Actualizaste tu cuenta, pero tenemos que verificar tu nuevo correo. Revisá tu bandeja de entrada y seguí el enlace de confirmación."
+      updated: "Actualizaste tu cuenta correctamente."
+      updated_but_not_signed_in: "Actualizaste tu cuenta correctamente, pero como cambiaste la contraseña tenés que volver a iniciar sesión."
+    sessions:
+      signed_in: "Iniciaste sesión correctamente."
+      signed_out: "Cerraste sesión correctamente."
+      already_signed_out: "Cerraste sesión correctamente."
+    unlocks:
+      send_instructions: "En unos minutos vas a recibir un correo con instrucciones para desbloquear tu cuenta."
+      send_paranoid_instructions: "Si tu cuenta existe, en unos minutos vas a recibir un correo con instrucciones para desbloquearla."
+      unlocked: "Desbloqueaste tu cuenta correctamente. Iniciá sesión para continuar."
