@@ -332,27 +332,28 @@ input, select, textarea {
 .login-signup a { display: inline-block; padding-block: 0.4rem; }
 .login-card :is(input, a):focus-visible { outline: 3px solid var(--ocean); outline-offset: 3px; }
 
-.signup-page {
-  --signup-bg-image: url("/images/signup/landscape-desktop.jpg");
-  --signup-bg-image-webp: url("/images/signup/landscape-desktop.webp");
+.auth-page {
+  --auth-bg-image: url("/images/signup/landscape-desktop.jpg");
+  --auth-bg-image-webp: url("/images/signup/landscape-desktop.webp");
   position: relative;
   isolation: isolate;
   width: 100%;
   min-height: max(calc(100dvh - 72px), calc(65vh + 2rem));
-  padding-block: clamp(3.25rem, 9vw, 5rem) clamp(2.5rem, 7vw, 4.5rem);
+  padding-block: clamp(2.5rem, 7vw, 4rem) clamp(2rem, 6vw, 3.5rem);
+  padding-inline: clamp(1rem, 4vw, 1.5rem);
   overflow: hidden;
 }
 
-.signup-page::before {
+.auth-page::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -2;
   background-color: var(--sand);
-  background-image: var(--signup-bg-image);
+  background-image: var(--auth-bg-image);
   background-image: image-set(
-    var(--signup-bg-image-webp) type("image/webp"),
-    var(--signup-bg-image) type("image/jpeg")
+    var(--auth-bg-image-webp) type("image/webp"),
+    var(--auth-bg-image) type("image/jpeg")
   );
   background-size: cover;
   background-position: center;
@@ -360,7 +361,7 @@ input, select, textarea {
   transform: scale(1.02);
 }
 
-.signup-page::after {
+.auth-page::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -371,31 +372,69 @@ input, select, textarea {
   pointer-events: none;
 }
 
-.signup-card {
+.auth-card {
   position: relative;
   z-index: 1;
   max-width: 480px;
+  padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1.25rem, 4vw, 2rem);
   border-radius: 1.3rem;
   box-shadow:
     0 24px 56px rgba(21, 51, 58, 0.14),
     0 8px 20px rgba(21, 51, 58, 0.08);
 }
 
-.signup-heading > p:last-child { margin: 0.6rem 0 1.25rem; }
+.auth-card .login-heading .eyebrow {
+  margin-bottom: 0.4rem;
+}
 
-.signup-form { gap: 0.85rem; }
+.auth-card .login-heading > p:last-child {
+  margin: 0.35rem 0 0.9rem;
+}
+
+.auth-card .login-form,
+.auth-card .signup-form {
+  gap: 0.72rem;
+}
+
+.auth-card .login-field label {
+  margin-bottom: 0.25rem;
+}
+
+.auth-card .login-field input {
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+}
+
+.auth-card .login-options {
+  gap: 0.35rem 0.85rem;
+}
+
+.auth-card .login-remember,
+.auth-card .login-options > a {
+  min-height: 40px;
+}
+
+.auth-card .login-submit {
+  min-height: 44px;
+}
+
+.auth-card .actions,
+.auth-card .signup-actions {
+  margin-top: 0;
+}
+
+.auth-card .login-signup,
+.auth-card .signup-footer-link {
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+}
+
+.signup-heading > p:last-child { margin: 0.35rem 0 0.9rem; }
 
 .signup-name-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
-}
-
-.signup-card .login-field label { margin-bottom: 0.3rem; }
-
-.signup-card .login-field input {
-  min-height: 44px;
-  padding: 0.62rem 0.75rem;
+  gap: 0.72rem;
 }
 
 .signup-required {
@@ -410,7 +449,7 @@ input, select, textarea {
   font-weight: 500;
 }
 
-.signup-card .visually-hidden {
+.auth-card .visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -424,17 +463,17 @@ input, select, textarea {
 
 .signup-hint {
   display: block;
-  margin-bottom: 0.28rem;
+  margin-bottom: 0.2rem;
   color: var(--muted);
   font-size: 0.8rem;
   font-weight: 500;
 }
 
-.signup-card .password-field { position: relative; }
+.auth-card .password-field { position: relative; }
 
-.signup-card .password-field input { padding-right: 2.85rem; }
+.auth-card .password-field input { padding-right: 2.85rem; }
 
-.signup-card .password-toggle {
+.auth-card .password-toggle {
   position: absolute;
   top: 50%;
   right: 0.35rem;
@@ -453,14 +492,14 @@ input, select, textarea {
   transition: color 160ms ease, background 160ms ease;
 }
 
-.signup-card .password-toggle:hover { color: var(--ocean-dark); background: rgba(8, 127, 140, 0.08); }
+.auth-card .password-toggle:hover { color: var(--ocean-dark); background: rgba(8, 127, 140, 0.08); }
 
-.signup-card .password-toggle:focus-visible {
+.auth-card .password-toggle:focus-visible {
   outline: 3px solid var(--ocean);
   outline-offset: 2px;
 }
 
-.signup-card .password-toggle-icon-slot {
+.auth-card .password-toggle-icon-slot {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -469,16 +508,12 @@ input, select, textarea {
   pointer-events: none;
 }
 
-.signup-card .password-toggle-icon {
+.auth-card .password-toggle-icon {
   display: block;
   flex-shrink: 0;
 }
 
-.signup-actions { margin-top: 0.15rem; }
-
-.signup-footer-link { margin-top: 1.25rem; padding-top: 1rem; }
-
-.signup-card #error_explanation {
+.auth-card #error_explanation {
   margin: 0;
   padding: 1rem 1.25rem;
   color: #8c2925;
@@ -488,21 +523,21 @@ input, select, textarea {
   font-size: 0.92rem;
 }
 
-.signup-card #error_explanation h2 {
+.auth-card #error_explanation h2 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
   font-weight: 800;
   line-height: 1.35;
 }
 
-.signup-card #error_explanation ul {
+.auth-card #error_explanation ul {
   margin: 0;
   padding-left: 1.2rem;
 }
 
-.signup-card #error_explanation li { margin: 0.25rem 0; }
+.auth-card #error_explanation li { margin: 0.25rem 0; }
 
-.signup-card .login-field input:focus-visible {
+.auth-card .login-field input:focus-visible {
   outline: 3px solid var(--ocean);
   outline-offset: 2px;
   border-color: var(--ocean);
@@ -518,14 +553,14 @@ input, select, textarea {
 }
 
 @media (max-width: 780px) {
-  .signup-page {
-    --signup-bg-image: url("/images/signup/landscape-mobile.jpg");
-    --signup-bg-image-webp: url("/images/signup/landscape-mobile.webp");
+  .auth-page {
+    --auth-bg-image: url("/images/signup/landscape-mobile.jpg");
+    --auth-bg-image-webp: url("/images/signup/landscape-mobile.webp");
   }
 
-  .signup-page::before { background-position: center 30%; }
+  .auth-page::before { background-position: center 30%; }
 
-  .signup-page::after {
+  .auth-page::after {
     background:
       radial-gradient(ellipse 95% 75% at 50% 38%, rgba(255, 255, 255, 0.86), rgba(246, 241, 232, 0.5) 50%, rgba(8, 127, 140, 0.3) 100%),
       linear-gradient(180deg, rgba(244, 250, 249, 0.4), rgba(8, 127, 140, 0.28));
