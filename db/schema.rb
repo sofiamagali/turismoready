@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_09_14_180000) do
+ActiveRecord::Schema[7.0].define(version: 2026_09_14_200000) do
   create_table "destinations", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "country"
@@ -48,6 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_14_180000) do
     t.string "reservation_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mercadopago_payment_id"
+    t.index ["mercadopago_payment_id"], name: "index_reservations_on_mercadopago_payment_id", unique: true
     t.index ["reservation_code"], name: "index_reservations_on_reservation_code", unique: true
     t.index ["trip_id"], name: "index_reservations_on_trip_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
