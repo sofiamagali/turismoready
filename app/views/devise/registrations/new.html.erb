@@ -1,44 +1,89 @@
-<h2>Registrarse</h2>
+<section class="login-page auth-page" aria-labelledby="signup-title">
+  <div class="login-card auth-card">
+    <header class="login-heading signup-heading">
+      <h1 id="signup-title">Creá tu cuenta</h1>
+      <p>Registrate y empezá a descubrir tu próximo destino</p>
+    </header>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "login-form signup-form" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :first_name, "Nombre" %><br />
-    <%= f.text_field :first_name, autofocus: true, autocomplete: "given-name" %>
+      <div class="signup-name-row">
+        <div class="login-field">
+          <%= f.label :first_name do %>
+            Nombre<span class="signup-required" aria-hidden="true">*</span><span class="visually-hidden"> (obligatorio)</span>
+          <% end %>
+          <%= f.text_field :first_name, autofocus: true, autocomplete: "given-name", required: true %>
+        </div>
+
+        <div class="login-field">
+          <%= f.label :last_name do %>
+            Apellido<span class="signup-required" aria-hidden="true">*</span><span class="visually-hidden"> (obligatorio)</span>
+          <% end %>
+          <%= f.text_field :last_name, autocomplete: "family-name", required: true %>
+        </div>
+      </div>
+
+      <div class="login-field">
+        <%= f.label :phone do %>
+          Teléfono <span class="signup-optional">(opcional)</span>
+        <% end %>
+        <%= f.telephone_field :phone, autocomplete: "tel" %>
+      </div>
+
+      <div class="login-field">
+        <%= f.label :email do %>
+          Email<span class="signup-required" aria-hidden="true">*</span><span class="visually-hidden"> (obligatorio)</span>
+        <% end %>
+        <%= f.email_field :email, autocomplete: "email", required: true %>
+      </div>
+
+      <div class="login-field">
+        <%= f.label :password do %>
+          Contraseña<span class="signup-required" aria-hidden="true">*</span><span class="visually-hidden"> (obligatorio)</span>
+        <% end %>
+        <% if @minimum_password_length %>
+          <span class="signup-hint">Mínimo <%= @minimum_password_length %> caracteres</span>
+        <% end %>
+        <div class="password-field" data-controller="password-visibility">
+          <%= f.password_field :password, autocomplete: "new-password", required: true, data: { password_visibility_target: "input" } %>
+          <button
+            type="button"
+            class="password-toggle"
+            data-password-visibility-target="toggle"
+            data-action="password-visibility#toggle"
+            aria-label="Mostrar contraseña"
+            aria-pressed="false"
+          >
+            <span class="password-toggle-icon-slot" data-password-visibility-target="iconSlot"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="login-field">
+        <%= f.label :password_confirmation do %>
+          Confirmar contraseña<span class="signup-required" aria-hidden="true">*</span><span class="visually-hidden"> (obligatorio)</span>
+        <% end %>
+        <div class="password-field" data-controller="password-visibility">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, data: { password_visibility_target: "input" } %>
+          <button
+            type="button"
+            class="password-toggle"
+            data-password-visibility-target="toggle"
+            data-action="password-visibility#toggle"
+            aria-label="Mostrar contraseña"
+            aria-pressed="false"
+          >
+            <span class="password-toggle-icon-slot" data-password-visibility-target="iconSlot"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="actions signup-actions">
+        <%= f.submit "Crear cuenta", class: "button login-submit" %>
+      </div>
+    <% end %>
+
+    <p class="login-signup signup-footer-link">¿Ya tenés una cuenta? <%= link_to "Iniciá sesión", new_session_path(resource_name), class: "text-link" %></p>
   </div>
-
-  <div class="field">
-    <%= f.label :last_name, "Apellido" %><br />
-    <%= f.text_field :last_name, autocomplete: "family-name" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone, "Teléfono" %><br />
-    <%= f.telephone_field :phone, autocomplete: "tel" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email, "Email" %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, "Contraseña" %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmar contraseña" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Registrarse" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</section>
